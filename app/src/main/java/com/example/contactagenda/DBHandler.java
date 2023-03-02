@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DBHandler extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
@@ -89,5 +92,28 @@ public class DBHandler extends SQLiteOpenHelper {
         else {
             return null;
         }
+    }
+
+    public List<Contact> getAllContacts(){
+        SQLiteDatabase db = getReadableDatabase();
+        List<Contact> contacts = new ArrayList<>();
+        String query = "SELECT * FROM " + CONTACTS_TABLE;
+
+        Cursor cursor = db.rawQuery(query,null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Contact contact = new Contact();
+                contact.setId(Integer.parseInt(cursor.getString(0)));
+                contact.setNumber(cursor.getString(2));
+                contact.setEmail(cursor.getString(3));
+                contact.setOrganization(cursor.getString(4));
+                contact.setRelationship(cursor.getString(5));
+                contacts.add(contact);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+
+        return contacts;
     }
 }
