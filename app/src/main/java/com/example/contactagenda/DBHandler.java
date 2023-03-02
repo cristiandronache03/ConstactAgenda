@@ -116,4 +116,44 @@ public class DBHandler extends SQLiteOpenHelper {
 
         return contacts;
     }
+
+    public int updateContact(Contact contact){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(NAME,contact.getName());
+        values.put(NUMBER,contact.getNumber());
+        values.put(EMAIL,contact.getEmail());
+        values.put(ORGANIZATION,contact.getOrganization());
+        values.put(RELATIONSHIP,contact.getRelationship());
+
+        return  db.update(
+                CONTACTS_TABLE,
+                values,
+                ID + " = ?",
+                new String[]{String.valueOf(contact.getId())}
+        );
+    }
+
+    public void deleteContact(Contact contact){
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(CONTACTS_TABLE,
+                ID + " = ?",
+                new String[]{String.valueOf(contact.getId())}
+        );
+        db.close();
+
+    }
+
+    public int getContactCount(){
+        SQLiteDatabase db = getReadableDatabase();
+        List<Contact> contacts = new ArrayList<>();
+        String query = "SELECT * FROM " + CONTACTS_TABLE;
+
+        Cursor cursor = db.rawQuery(query,null);
+
+        return cursor.getCount();
+    }
 }
