@@ -19,12 +19,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String CONTACTS_TABLE = "contacts";
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String NUMBER = "number";
-    private static final String EMAIL = "email";
-    private static final String ORGANIZATION = "organization";
+    private static final String ID = "ID";
+    private static final String NAME = "NAME";
+    private static final String NUMBER = "NUMBER";
+    private static final String EMAIL = "EMAIL";
+    private static final String ORGANIZATION = "ORGANIZATION";
     private static final String RELATIONSHIP = "relationship";
+    private static final String IMAGE = "image";
 
 
     public DBHandler(@Nullable Context context) {
@@ -34,12 +35,13 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + CONTACTS_TABLE + "(" +
-                ID + " int PRIMARY KEY," +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 NAME + " TEXT," +
                 NUMBER + " TEXT," +
                 EMAIL + " TEXT," +
                 ORGANIZATION + " TEXT," +
-                RELATIONSHIP + " TEXT)";
+                RELATIONSHIP + " TEXT," +
+                IMAGE + " TEXT)";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -54,12 +56,12 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(ID,contact.getId());
         values.put(NAME,contact.getName());
         values.put(NUMBER,contact.getNumber());
         values.put(EMAIL,contact.getEmail());
         values.put(ORGANIZATION,contact.getOrganization());
         values.put(RELATIONSHIP,contact.getRelationship());
+        values.put(IMAGE,contact.getImage());
 
         db.insert(CONTACTS_TABLE,null,values);
         db.close();
@@ -70,7 +72,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(
                 CONTACTS_TABLE,
-                new String[]{ID,NAME,NUMBER,EMAIL,ORGANIZATION,RELATIONSHIP},
+                new String[]{ID,NAME,NUMBER,EMAIL,ORGANIZATION,RELATIONSHIP,IMAGE},
                 ID + "=?",
                 new String[]{String.valueOf(id)},
                 null,null,null,null
@@ -84,7 +86,8 @@ public class DBHandler extends SQLiteOpenHelper {
                     cursor.getString(2),
                     cursor.getString(3),
                     cursor.getString(4),
-                    cursor.getString(5)
+                    cursor.getString(5),
+                    cursor.getString(6)
             );
             cursor.close();
             return contact;
@@ -109,6 +112,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 contact.setEmail(cursor.getString(3));
                 contact.setOrganization(cursor.getString(4));
                 contact.setRelationship(cursor.getString(5));
+                contact.setImage(cursor.getString(6));
                 contacts.add(contact);
             }while(cursor.moveToNext());
         }
@@ -127,6 +131,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(EMAIL,contact.getEmail());
         values.put(ORGANIZATION,contact.getOrganization());
         values.put(RELATIONSHIP,contact.getRelationship());
+        values.put(IMAGE,contact.getImage());
 
         return  db.update(
                 CONTACTS_TABLE,

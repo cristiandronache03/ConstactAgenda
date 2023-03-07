@@ -3,27 +3,29 @@ package com.example.contactagenda;
 public class Contact {
 
     int id;
-    String name,number,email,organization,relationship;
+    String name,number,email,organization,relationship,image;
 
     public Contact(){
 
     }
 
-    public Contact(int id, String name, String number, String email, String organization, String relationship) {
+    public Contact(int id, String name, String number, String email, String organization, String relationship, String image) {
         this.id = id;
         this.name = name;
         this.number = number;
         this.email = email;
         this.organization = organization;
         this.relationship = relationship;
+        this.image = image;
     }
 
-    public Contact(String name, String number, String email, String organization, String relationship) {
+    public Contact(String name, String number, String email, String organization, String relationship, String image) {
         this.name = name;
         this.number = number;
         this.email = email;
         this.organization = organization;
         this.relationship = relationship;
+        this.image = image;
     }
 
     public int getId() {
@@ -72,5 +74,13 @@ public class Contact {
 
     public void setRelationship(String relationship) {
         this.relationship = relationship;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

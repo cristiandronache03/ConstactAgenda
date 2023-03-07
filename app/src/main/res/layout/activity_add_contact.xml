@@ -69,16 +69,31 @@
             android:textColor="@color/colorTextSecondary"/>
 
         <EditText
-            android:id="@+id/noteEt"
+            android:id="@+id/organizationEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Note"
+            android:hint="Organization"
             android:inputType="textLongMessage"
             android:textColorHint="@color/white"
             android:background="@drawable/bg_input_field"
             android:padding="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:drawableStart="@drawable/baseline_note_24"
+            android:drawableStart="@drawable/baseline_business_24"
+            android:drawablePadding="@dimen/_5sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/colorTextSecondary"/>
+
+        <EditText
+            android:id="@+id/relationshipEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Relationship"
+            android:inputType="textLongMessage"
+            android:textColorHint="@color/white"
+            android:background="@drawable/bg_input_field"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:drawableStart="@drawable/baseline_favorite_border_24"
             android:drawablePadding="@dimen/_5sdp"
             android:textSize="@dimen/_14sdp"
             android:textColor="@color/colorTextSecondary"/>

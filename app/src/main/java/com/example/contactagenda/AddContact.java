@@ -27,13 +27,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class AddContact extends AppCompatActivity {
 
     private ImageView profiveIv;
-    private EditText nameEt,phoneEt,emailEt,noteEt;
+    private EditText nameEt,phoneEt,emailEt,organizationEt,relationshipEt,imageEt;
 
     private FloatingActionButton fab;
 
-    String name, phone, email, note;
+    private String name, phone, email, organization, relationship,image;
 
-    ActionBar actionBar;
+
+    private ActionBar actionBar;
 
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 200;
@@ -45,13 +46,16 @@ public class AddContact extends AppCompatActivity {
 
     Uri imageUri;
     final int PIC_CROP = 2;
-    final int CAMERA_CAPTURE = 1;
+
+    private DBHandler dbHandler;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
+
+        dbHandler = new DBHandler(this);
 
         cameraPermission = new String[]{android.Manifest.permission.CAMERA,android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -66,7 +70,8 @@ public class AddContact extends AppCompatActivity {
         nameEt = findViewById(R.id.nameEt);
         phoneEt = findViewById(R.id.phoneEt);
         emailEt = findViewById(R.id.emailEt);
-        noteEt = findViewById(R.id.noteEt);
+        organizationEt = findViewById(R.id.organizationEt);
+        relationshipEt = findViewById(R.id.relationshipEt);
         fab = findViewById(R.id.fab);
 
 
@@ -138,13 +143,17 @@ public class AddContact extends AppCompatActivity {
         name = nameEt.getText().toString();
         phone = phoneEt.getText().toString();
         email = emailEt.getText().toString();
-        note = noteEt.getText().toString();
+        organization = organizationEt.getText().toString();
+        relationship = relationshipEt.getText().toString();
 
         if(name.isEmpty() || phone.isEmpty()){
             Toast.makeText(getApplicationContext(), "Please fill in the fields...",Toast.LENGTH_SHORT).show();
         }
         else{
+            Contact contact = new Contact(name,phone,email,organization,relationship,""+imageUri);
+            dbHandler.addContact(contact);
 
+            Toast.makeText(getApplicationContext(), "Saved",Toast.LENGTH_SHORT).show();
         }
 
     }
