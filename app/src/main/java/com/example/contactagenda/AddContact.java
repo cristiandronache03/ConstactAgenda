@@ -151,9 +151,9 @@ public class AddContact extends AppCompatActivity {
         }
         else{
             Contact contact = new Contact(name,phone,email,organization,relationship,""+imageUri);
-            dbHandler.addContact(contact);
+            long id = dbHandler.addContact(contact);
 
-            Toast.makeText(getApplicationContext(), "Saved",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Saved " + id + " name " + name,Toast.LENGTH_SHORT).show();
         }
 
     }

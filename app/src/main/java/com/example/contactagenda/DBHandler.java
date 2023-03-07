@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 1;
+    private static final int VERSION = 3;
 
     private static final String DB_NAME = "ContactsDB";
 
@@ -24,8 +25,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String NUMBER = "NUMBER";
     private static final String EMAIL = "EMAIL";
     private static final String ORGANIZATION = "ORGANIZATION";
-    private static final String RELATIONSHIP = "relationship";
-    private static final String IMAGE = "image";
+    private static final String RELATIONSHIP = "RELATIONSHIP";
+    private static final String IMAGE = "IMAGE";
 
 
     public DBHandler(@Nullable Context context) {
@@ -52,7 +53,7 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addContact(Contact contact){
+    public long addContact(Contact contact){
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -63,8 +64,10 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(RELATIONSHIP,contact.getRelationship());
         values.put(IMAGE,contact.getImage());
 
-        db.insert(CONTACTS_TABLE,null,values);
+
+        long id = db.insert(CONTACTS_TABLE,null,values);
         db.close();
+        return id;
     }
 
     public Contact getContact(int id){
@@ -97,9 +100,9 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
-    public List<Contact> getAllContacts(){
+    public ArrayList<Contact> getAllContacts(){
         SQLiteDatabase db = getReadableDatabase();
-        List<Contact> contacts = new ArrayList<>();
+        ArrayList<Contact> contacts = new ArrayList<>();
         String query = "SELECT * FROM " + CONTACTS_TABLE;
 
         Cursor cursor = db.rawQuery(query,null);
@@ -108,6 +111,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do{
                 Contact contact = new Contact();
                 contact.setId(Integer.parseInt(cursor.getString(0)));
+                contact.setName(cursor.getString(1));
                 contact.setNumber(cursor.getString(2));
                 contact.setEmail(cursor.getString(3));
                 contact.setOrganization(cursor.getString(4));

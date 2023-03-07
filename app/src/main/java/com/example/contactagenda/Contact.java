@@ -3,7 +3,7 @@ package com.example.contactagenda;
 public class Contact {
 
     int id;
-    String name,number,email,organization,relationship,image;
+    String name,number,email,organization,relationship,image=null;
 
     public Contact(){
 
