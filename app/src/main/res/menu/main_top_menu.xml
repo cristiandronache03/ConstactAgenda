@@ -7,4 +7,11 @@
         android:icon="@drawable/baseline_search_24"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />
+
+    <item
+        android:id="@+id/sortContacts"
+        android:title="Sort"
+        android:icon="@drawable/baseline_sort_24"
+        app:showAsAction="ifRoom"/>
+
 </menu>

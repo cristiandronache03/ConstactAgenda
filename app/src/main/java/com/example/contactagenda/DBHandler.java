@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 4;
+    private static final int VERSION = 1;
 
     private static final String DB_NAME = "ContactsDB";
 
@@ -30,7 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     public DBHandler(@Nullable Context context) {
-        super(context, NAME, null, VERSION);
+        super(context, DB_NAME, null, VERSION);
     }
 
     @Override
@@ -100,10 +100,10 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<Contact> getAllContacts(){
+    public ArrayList<Contact> getAllContacts(String currentSort){
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Contact> contacts = new ArrayList<>();
-        String query = "SELECT * FROM " + CONTACTS_TABLE;
+        String query = "SELECT * FROM " + CONTACTS_TABLE + " ORDER BY "+currentSort;
 
         Cursor cursor = db.rawQuery(query,null);
 

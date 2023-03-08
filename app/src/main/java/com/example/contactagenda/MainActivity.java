@@ -2,9 +2,11 @@ package com.example.contactagenda;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,14 +28,17 @@ public class MainActivity extends AppCompatActivity {
 
     private AdapterContact adapterContact;
 
-    private ActionBar actionBar;
+    private String sortByNameAsc = "NAME ASC";
+    private String sortByNameDesc = "NAME DESC";
+
+    private String currentSort = sortByNameAsc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        actionBar = getSupportActionBar();
 
         dbHandler = new DBHandler(this);
 
@@ -53,18 +58,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadData();
+        loadData(currentSort);
     }
 
-    private void loadData() {
-        adapterContact = new AdapterContact(this,dbHandler.getAllContacts());
+    private void loadData(String currentSort) {
+        adapterContact = new AdapterContact(this,dbHandler.getAllContacts(currentSort));
         contactRv.setAdapter(adapterContact);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadData();
+        loadData(currentSort);
     }
 
     @Override
@@ -99,6 +104,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()){
+            case R.id.sortContacts:
+                sortDialog();
+                break;
+        }
+
+        return true;
+    }
+
+    private void sortDialog() {
+        String[] option = {"A-Z","Z-A"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Sort By");
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0){
+                    loadData(sortByNameAsc);
+                }else if(which == 1){
+                    loadData(sortByNameDesc);
+                }else{
+                    loadData(sortByNameAsc);
+                }
+            }
+        });
+        builder.create().show();
     }
 }
