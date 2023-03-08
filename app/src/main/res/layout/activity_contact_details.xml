@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSecondary"
+    tools:context=".ContactDetails">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/image_detailsIv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:id="@+id/name_detailsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Text"
+            android:textColor="@color/colorTextSecondary"
+            android:textStyle="bold"
+            android:textSize="@dimen/_16sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"/>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:stretchColumns="2">
+
+            <TableRow android:layout_height="41dp">
+
+                <TextView
+                    android:text="Phone"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/phone_detailsTv"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    tools:text="0743298523" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Email"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary"/>
+                <TextView
+                    android:id="@+id/email_detailsTv"
+                    tools:text="test@gmail.com"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textColor="@color/colorTextSecondary"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Organization"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary"/>
+                <TextView
+                    android:id="@+id/organization_detailsTv"
+                    tools:text="Google"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textColor="@color/colorTextSecondary"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Relationship"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary"/>
+                <TextView
+                    android:id="@+id/relationship_detailsTv"
+                    tools:text="Friend"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textColor="@color/colorTextSecondary"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+</RelativeLayout>

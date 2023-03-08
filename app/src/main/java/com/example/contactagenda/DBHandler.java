@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
 
     private static final String DB_NAME = "ContactsDB";
 

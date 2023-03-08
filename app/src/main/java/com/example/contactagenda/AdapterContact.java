@@ -1,6 +1,7 @@
 package com.example.contactagenda;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactV
 
     private Context context;
     private ArrayList<Contact> contactList;
+
 
 
     public AdapterContact(Context context, ArrayList<Contact> contactList) {
@@ -55,6 +57,15 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactV
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ContactDetails.class);
+                intent.putExtra("contactId",""+id);
+                context.startActivity(intent);
             }
         });
 
