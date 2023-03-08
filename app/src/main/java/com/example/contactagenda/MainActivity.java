@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // move to new activity to add contact
                 Intent intent = new Intent(MainActivity.this, AddContact.class);
+                intent.putExtra("isEditMode",false);
                 startActivity(intent);
             }
         });

@@ -27,11 +27,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class AddContact extends AppCompatActivity {
 
     private ImageView profiveIv;
-    private EditText nameEt,phoneEt,emailEt,organizationEt,relationshipEt,imageEt;
+    private EditText nameEt,phoneEt,emailEt,organizationEt,relationshipEt;
 
     private FloatingActionButton fab;
 
-    private String name, phone, email, organization, relationship,image;
+    private String name, phone, email, organization, relationship;
+
+    private int id;
+
+    private boolean isEditMode;
 
 
     private ActionBar actionBar;
@@ -62,7 +66,6 @@ public class AddContact extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
 
-        actionBar.setTitle("Add Contact");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
@@ -73,6 +76,39 @@ public class AddContact extends AppCompatActivity {
         organizationEt = findViewById(R.id.organizationEt);
         relationshipEt = findViewById(R.id.relationshipEt);
         fab = findViewById(R.id.fab);
+
+        Intent intent = getIntent();
+        isEditMode = intent.getBooleanExtra("isEditMode",false);
+
+        if(isEditMode){
+
+            actionBar.setTitle("Edit Contact");
+
+            id = Integer.parseInt(intent.getStringExtra("id"));
+            name = intent.getStringExtra("name");
+            phone = intent.getStringExtra("phone");
+            email = intent.getStringExtra("email");
+            organization = intent.getStringExtra("organization");
+            relationship= intent.getStringExtra("relationship");
+            imageUri = Uri.parse(intent.getStringExtra("image"));
+
+            nameEt.setText(name);
+            phoneEt.setText(phone);
+            emailEt.setText(email);
+            organizationEt.setText(organization);
+            relationshipEt.setText(relationship);
+
+            if(imageUri.toString().equals("null")){
+                profiveIv.setImageResource(R.drawable.baseline_person_24);
+            }else {
+                profiveIv.setImageURI(imageUri);
+            }
+
+
+
+        }else {
+            actionBar.setTitle("Add Contact");
+        }
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -146,15 +182,28 @@ public class AddContact extends AppCompatActivity {
         organization = organizationEt.getText().toString();
         relationship = relationshipEt.getText().toString();
 
-        if(name.isEmpty() || phone.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please fill in the fields...",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Contact contact = new Contact(name,phone,email,organization,relationship,""+imageUri);
-            long id = dbHandler.addContact(contact);
+        if(!isEditMode){
+            if(name.isEmpty() || phone.isEmpty()){
+                Toast.makeText(getApplicationContext(), "Please fill in the fields...",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Contact contact = new Contact(name,phone,email,organization,relationship,""+imageUri);
+                long id = dbHandler.addContact(contact);
 
-            Toast.makeText(getApplicationContext(), "Saved " + id + " name " + name,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Saved " + id + " name " + name,Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            if(name.isEmpty() || phone.isEmpty()){
+                Toast.makeText(getApplicationContext(), "Please fill in the fields...",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Contact contact = new Contact(id,name,phone,email,organization,relationship,""+imageUri);
+                long id = dbHandler.updateContact(contact);
+
+                Toast.makeText(getApplicationContext(), "Updated " + id + " name " + name,Toast.LENGTH_SHORT).show();
+            }
         }
+
 
     }
 

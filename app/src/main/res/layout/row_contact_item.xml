@@ -7,6 +7,7 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="@dimen/_5sdp">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,24 +21,44 @@
             android:padding="@dimen/_5sdp"/>
         <TextView
             android:id="@+id/contact_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact Name"
             android:textColor="@color/colorTextPrimary"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_toEndOf="@+id/contact_image"
-            android:layout_toStartOf="@+id/contact_number_dial"
             android:layout_centerInParent="true"
             android:textSize="@dimen/_16sdp"/>
-        <ImageView
-            android:id="@+id/contact_number_dial"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_local_phone_24"
-            android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:layout_marginEnd="@dimen/_10sdp"
-            app:tint="@color/colorTextPrimary" />
+            android:gravity="end"
+            >
+
+            <ImageView
+                android:id="@+id/contact_number_dial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_local_phone_24"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:tint="@color/colorTextPrimary" />
+            <ImageView
+                android:id="@+id/editIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_edit_24"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:tint="#8BC34A" />
+            <ImageView
+                android:id="@+id/deleteIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_delete_24"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:tint="@color/colorThemeExtra" />
+
+        </LinearLayout>
 
 
 

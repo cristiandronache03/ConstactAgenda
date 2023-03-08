@@ -9,16 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import java.util.ArrayList;
 
-public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactViewHolder>{
+public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactViewHolder>
+{
 
     private Context context;
     private ArrayList<Contact> contactList;
+    private DBHandler dbHandler;
 
 
 
@@ -43,6 +47,12 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactV
         int id = contact.getId();
         String image = contact.getImage();
         String name = contact.getName();
+        String number = contact.getNumber();
+        String email = contact.getEmail();
+        String organization = contact.getOrganization();
+        String relationship = contact.getRelationship();
+
+        dbHandler = new DBHandler(context);
 
         //note, database extracts null as string for null values
 
@@ -69,6 +79,34 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactV
             }
         });
 
+        holder.contactEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,AddContact.class);
+
+                intent.putExtra("id",""+id);
+                intent.putExtra("name",name);
+                intent.putExtra("phone",number);
+                intent.putExtra("image",image);
+                intent.putExtra("email",email);
+                intent.putExtra("organization",organization);
+                intent.putExtra("relationship",relationship);
+
+                intent.putExtra("isEditMode",true);
+
+                context.startActivity(intent);
+
+            }
+        });
+
+        holder.contactDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHandler.deleteContact(contact);
+                ((MainActivity)context).onResume();
+            }
+        });
+
     }
 
     @Override
@@ -78,7 +116,7 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactV
 
     class ContactViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView contactImage,contactDial;
+        ImageView contactImage,contactDial,contactEdit,contactDelete;
         TextView contactName;
 
         public ContactViewHolder(@NonNull View itemView) {
@@ -87,6 +125,8 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ContactV
             contactImage = itemView.findViewById(R.id.contact_image);
             contactDial = itemView.findViewById(R.id.contact_number_dial);
             contactName = itemView.findViewById(R.id.contact_name);
+            contactEdit = itemView.findViewById(R.id.editIv);
+            contactDelete = itemView.findViewById(R.id.deleteIv);
         }
     }
 }
