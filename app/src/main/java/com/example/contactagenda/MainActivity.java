@@ -1,12 +1,17 @@
 package com.example.contactagenda;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -21,10 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     private AdapterContact adapterContact;
 
+    private ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        actionBar = getSupportActionBar();
 
         dbHandler = new DBHandler(this);
 
@@ -56,5 +65,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_top_menu,menu);
+
+        MenuItem item = menu.findItem(R.id.searchContact);
+
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchContact(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchContact(newText);
+                return true;
+            }
+        });
+        return true;
+    }
+
+    private void searchContact(String query) {
+        adapterContact = new AdapterContact(this,dbHandler.searchContact(query));
+        contactRv.setAdapter(adapterContact);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }
